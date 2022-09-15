@@ -1,29 +1,110 @@
 import React, { useState, useEffect } from "react"
+import { start } from "repl"
+import "./style.css"
 
 interface IWeather {
-  country: string
+  city: string
+}
+
+function firstLetterUppercase(word: string) {
+  return word.charAt(0).toUpperCase() + word.slice(1)
 }
 
 const Weather = (param: IWeather) => {
-  const [temperature, setTemperature] = useState(Number)
-  const [climate, setClimate] = useState([])
+  const [climate, setClimate] = useState({
+    temperature: "",
+    description: "",
+    iconUri: "",
+    humidity: "",
+    visibility: "",
+    windSpeed: "",
+  })
+
+  /*
+  Needed weather data:
+  temp: .main.temp
+  weather: .weather[0].main (.weather[0].description ?)
+  weatherIconUri:  https://openweathermap.org/img/wn/{.weather[0].icon}@2x.png
+  humidity: .main.humidity
+  visibility: .visibility
+  windSpeed: .wind.speed
+  */
 
   const key = "f57e16dd03bb490408e2f4f8b485e456"
-  const uri = `http://api.openweathermap.org/data/2.5/weather?q=${param.country}&APPID=${key}`
+  const uri = `http://api.openweathermap.org/data/2.5/weather?q=${param.city}&APPID=${key}`
 
   useEffect(() => {
     fetch(uri)
       .then((response) => response.json())
       .then((apiData) => {
-        const kelvTemp = apiData.main.temp
-        const celcTemp = Math.round((kelvTemp - 272.15) * 10) / 10
-        setTemperature(celcTemp)
+        const tempK = apiData.main.temp
+        const WeatherTempC = Math.round((tempK - 272.15) * 10) / 10 + "\u00B0C"
+
+        const weatherDesc = firstLetterUppercase(apiData.weather[0].description)
+        const weatherIcon = `https://openweathermap.org/img/wn/${apiData.weather[0].icon}@2x.png`
+        const weatherHumidity = apiData.main.humidity + "%"
+        const weatherVisibility = apiData.visibility + " meter"
+        const weatherWindSpeed = apiData.wind.speed + " meter/sec"
+
+        const weatherInfo = {
+          temperature: WeatherTempC,
+          description: weatherDesc,
+          iconUri: weatherIcon,
+          humidity: weatherHumidity,
+          visibility: weatherVisibility,
+          windSpeed: weatherWindSpeed,
+        }
+
+        setClimate(weatherInfo)
       })
       .catch((err) => {
         console.log("ERROR: " + err)
       })
-  }, [uri, temperature])
-  return <div>{temperature}</div>
+  }, [uri])
+  return (
+    <WeatherCard
+      temperature={climate.temperature}
+      description={climate.description}
+      iconUri={climate.iconUri}
+      humidity={climate.humidity}
+      visibility={climate.visibility}
+      windSpeed={climate.windSpeed}
+      city={param.city}
+    />
+  )
+}
+
+interface IWeatherCard {
+  temperature: string
+  description: string
+  iconUri: string
+  humidity: string
+  visibility: string
+  windSpeed: string
+  city: string
+}
+
+const WeatherCard = (params: IWeatherCard) => {
+  return (
+    <div
+      className="card"
+      style={{
+        color: "black",
+      }}
+    >
+      <h2 style={{ marginBottom: "0" }}>{params.city}</h2>
+      <img src={params.iconUri} alt="Current Weather" />
+      <p style={{ margin: "auto", fontSize: "larger", width: "fit-content" }}>
+        {params.description}
+      </p>
+      <ul className="weatherList">
+        <li>Temperature: {params.temperature}</li>
+        <li>Humidity: {params.humidity}</li>
+        <li>Visibility: {params.visibility}</li>
+        <li>Wind speed: {params.windSpeed}</li>
+      </ul>
+    </div>
+  )
 }
 
 export default Weather

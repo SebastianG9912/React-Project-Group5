@@ -1,0 +1,26 @@
+.card{
+    margin: auto;
+    margin-top: 50px;
+    background-color: rgb(193, 193, 193);
+    border-radius: 10px;
+    width: fit-content;
+    padding: 0 20px 10px 20px;
+    min-width: 300px;
+    border-style: inset;
+    border-width: 2px;
+
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.weatherList{
+    list-style: none;
+    width: fit-content;
+    margin:0;
+    margin-top: 1.3em;
+    padding:0;
+}
+
+.weatherList li{
+    width: fit-content;
+    margin-top: 0.7em;
+}

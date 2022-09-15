@@ -19,7 +19,9 @@ function App() {
           Learn React
         </a>
         {/* <Link to="/Route"></Link> */}
-        <Weather country="London" />
+
+        {/* London is only used as an example */}
+        <Weather city="London" />
       </header>
     </div>
   )
