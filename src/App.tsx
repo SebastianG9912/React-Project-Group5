@@ -1,8 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 import "./App.css"
 import { Link } from "react-router-dom"
+import { Weather } from "./components"
 
 function App() {
+  const [region, setRegion] = useState("")
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +20,21 @@ function App() {
           Learn React
         </a>
         {/* <Link to="/Route"></Link> */}
+
+        {/*WEATHER IMPLEMANTATION START*/}
+        <input type="text" id="regionText" />
+        <button
+          onClick={() => {
+            const regionTextField = document.getElementById(
+              "regionText"
+            ) as HTMLInputElement
+            setRegion(regionTextField.value)
+          }}
+        >
+          click for weather
+        </button>
+        <Weather region={region} />
+        {/*WEATHER IMPLEMANTATION END*/}
       </header>
     </div>
   )
