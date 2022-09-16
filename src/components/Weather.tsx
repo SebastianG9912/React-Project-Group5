@@ -11,6 +11,8 @@ function firstLetterUppercase(word: string) {
 }
 
 const Weather = (param: IWeather) => {
+  const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [climate, setClimate] = useState({
     temperature: "",
     description: "",
@@ -50,9 +52,12 @@ const Weather = (param: IWeather) => {
           }
 
           setClimate(weatherInfo)
+          setLoading(false)
         })
         .catch((err) => {
           console.log("ERROR: " + err)
+          setError(true)
+          setLoading(false)
         })
     }
 
@@ -65,15 +70,23 @@ const Weather = (param: IWeather) => {
   }, [uri])
 
   return (
-    <WeatherCard
-      temperature={climate.temperature}
-      description={climate.description}
-      iconUri={climate.iconUri}
-      humidity={climate.humidity}
-      visibility={climate.visibility}
-      windSpeed={climate.windSpeed}
-      city={param.city}
-    />
+    <span>
+      {loading ? (
+        <div>Loading, please wait...</div>
+      ) : error ? (
+        <div>Something went wrong, try again. Please check name of city</div>
+      ) : (
+        <WeatherCard
+          temperature={climate.temperature}
+          description={climate.description}
+          iconUri={climate.iconUri}
+          humidity={climate.humidity}
+          visibility={climate.visibility}
+          windSpeed={climate.windSpeed}
+          city={param.city}
+        />
+      )}
+    </span>
   )
 }
 
