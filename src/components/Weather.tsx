@@ -59,7 +59,7 @@ const Weather = (param: IWeather) => {
     callAPI()
     const interval = setInterval(() => {
       callAPI()
-    }, 60000)
+    }, 60 * 60 * 1000)
 
     return () => clearInterval(interval)
   }, [uri])
@@ -89,12 +89,7 @@ interface IWeatherCard {
 
 const WeatherCard = (params: IWeatherCard) => {
   return (
-    <div
-      className="card"
-      style={{
-        color: "black",
-      }}
-    >
+    <div className="card">
       <h2 style={{ marginBottom: "0" }}>{params.city}</h2>
       <img src={params.iconUri} alt="Current Weather" />
       <p style={{ margin: "auto", fontSize: "larger", width: "fit-content" }}>
