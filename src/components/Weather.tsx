@@ -20,47 +20,50 @@ const Weather = (param: IWeather) => {
     windSpeed: "",
   })
 
-  /*
-  Needed weather data:
-  temp: .main.temp
-  weather: .weather[0].main (.weather[0].description ?)
-  weatherIconUri:  https://openweathermap.org/img/wn/{.weather[0].icon}@2x.png
-  humidity: .main.humidity
-  visibility: .visibility
-  windSpeed: .wind.speed
-  */
-
   const key = "f57e16dd03bb490408e2f4f8b485e456"
   const uri = `http://api.openweathermap.org/data/2.5/weather?q=${param.city}&APPID=${key}`
 
   useEffect(() => {
-    fetch(uri)
-      .then((response) => response.json())
-      .then((apiData) => {
-        const tempK = apiData.main.temp
-        const WeatherTempC = Math.round((tempK - 272.15) * 10) / 10 + "\u00B0C"
+    const callAPI = () => {
+      fetch(uri)
+        .then((response) => response.json())
+        .then((apiData) => {
+          const tempK = apiData.main.temp
+          const WeatherTempC =
+            Math.round((tempK - 272.15) * 10) / 10 + "\u00B0C"
 
-        const weatherDesc = firstLetterUppercase(apiData.weather[0].description)
-        const weatherIcon = `https://openweathermap.org/img/wn/${apiData.weather[0].icon}@2x.png`
-        const weatherHumidity = apiData.main.humidity + "%"
-        const weatherVisibility = apiData.visibility + " meter"
-        const weatherWindSpeed = apiData.wind.speed + " meter/sec"
+          const weatherDesc = firstLetterUppercase(
+            apiData.weather[0].description
+          )
+          const weatherIcon = `https://openweathermap.org/img/wn/${apiData.weather[0].icon}@2x.png`
+          const weatherHumidity = apiData.main.humidity + "%"
+          const weatherVisibility = apiData.visibility + "m"
+          const weatherWindSpeed = apiData.wind.speed + "m/s"
 
-        const weatherInfo = {
-          temperature: WeatherTempC,
-          description: weatherDesc,
-          iconUri: weatherIcon,
-          humidity: weatherHumidity,
-          visibility: weatherVisibility,
-          windSpeed: weatherWindSpeed,
-        }
+          const weatherInfo = {
+            temperature: WeatherTempC,
+            description: weatherDesc,
+            iconUri: weatherIcon,
+            humidity: weatherHumidity,
+            visibility: weatherVisibility,
+            windSpeed: weatherWindSpeed,
+          }
 
-        setClimate(weatherInfo)
-      })
-      .catch((err) => {
-        console.log("ERROR: " + err)
-      })
+          setClimate(weatherInfo)
+        })
+        .catch((err) => {
+          console.log("ERROR: " + err)
+        })
+    }
+
+    callAPI()
+    const interval = setInterval(() => {
+      callAPI()
+    }, 60000)
+
+    return () => clearInterval(interval)
   }, [uri])
+
   return (
     <WeatherCard
       temperature={climate.temperature}

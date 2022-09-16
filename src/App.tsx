@@ -20,8 +20,8 @@ function App() {
         </a>
         {/* <Link to="/Route"></Link> */}
 
-        {/* London is only used as an example */}
-        <Weather city="London" />
+        {/* Halmstad is only used as an example */}
+        <Weather city="Halmstad" />
       </header>
     </div>
   )
