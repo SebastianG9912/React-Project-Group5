@@ -3,7 +3,7 @@ import { start } from "repl"
 import "./style.css"
 
 interface IWeather {
-  city: string
+  region: string
 }
 
 function firstLetterUppercase(word: string) {
@@ -23,10 +23,12 @@ const Weather = (param: IWeather) => {
   })
 
   const key = "f57e16dd03bb490408e2f4f8b485e456"
-  const uri = `http://api.openweathermap.org/data/2.5/weather?q=${param.city}&APPID=${key}`
+  const uri = `http://api.openweathermap.org/data/2.5/weather?q=${param.region}&APPID=${key}`
 
   useEffect(() => {
     const callAPI = () => {
+      setError(false)
+      setLoading(true)
       fetch(uri)
         .then((response) => response.json())
         .then((apiData) => {
@@ -70,11 +72,13 @@ const Weather = (param: IWeather) => {
   }, [uri])
 
   return (
-    <span>
-      {loading ? (
-        <div>Loading, please wait...</div>
+    <div className="card">
+      {param.region === "" ? (
+        <p>Please enter name of the region</p>
+      ) : loading ? (
+        <p>Loading, please wait...</p>
       ) : error ? (
-        <div>Something went wrong, try again. Please check name of city</div>
+        <p>Something went wrong, try again. Please check name of region</p>
       ) : (
         <WeatherCard
           temperature={climate.temperature}
@@ -83,10 +87,10 @@ const Weather = (param: IWeather) => {
           humidity={climate.humidity}
           visibility={climate.visibility}
           windSpeed={climate.windSpeed}
-          city={param.city}
+          region={param.region}
         />
       )}
-    </span>
+    </div>
   )
 }
 
@@ -97,13 +101,15 @@ interface IWeatherCard {
   humidity: string
   visibility: string
   windSpeed: string
-  city: string
+  region: string
 }
 
 const WeatherCard = (params: IWeatherCard) => {
   return (
-    <div className="card">
-      <h2 style={{ marginBottom: "0" }}>{params.city}</h2>
+    <span>
+      <h2 style={{ marginBottom: "0" }}>
+        {firstLetterUppercase(params.region)}
+      </h2>
       <img src={params.iconUri} alt="Current Weather" />
       <p style={{ margin: "auto", fontSize: "larger", width: "fit-content" }}>
         {params.description}
@@ -114,7 +120,7 @@ const WeatherCard = (params: IWeatherCard) => {
         <li>Visibility: {params.visibility}</li>
         <li>Wind speed: {params.windSpeed}</li>
       </ul>
-    </div>
+    </span>
   )
 }
 
