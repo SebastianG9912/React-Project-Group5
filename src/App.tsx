@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import "./App.css"
 import { Link } from "react-router-dom"
-import { Weather } from "./components"
+import { Weather, Birds } from "./components"
 
 function App() {
   const [region, setRegion] = useState("")
@@ -35,6 +35,10 @@ function App() {
         </button>
         <Weather region={region} />
         {/*WEATHER IMPLEMANTATION END*/}
+
+        {/*BIRDS IMPLEMENTATION START*/}
+        {/* <Birds regionCode={region} /> */}
+        {/*BIRDS IMPLEMENTATION END*/}
       </header>
     </div>
   )
