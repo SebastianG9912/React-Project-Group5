@@ -108,7 +108,7 @@ const WeatherCard = (params: IWeatherCard) => {
   return (
     <span>
       <h2 style={{ marginBottom: "0" }}>
-        {firstLetterUppercase(params.region)}
+        {firstLetterUppercase(params.region.toLowerCase())}
       </h2>
       <img src={params.iconUri} alt="Current Weather" />
       <p style={{ margin: "auto", fontSize: "larger", width: "fit-content" }}>

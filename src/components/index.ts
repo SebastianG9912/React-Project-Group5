@@ -1,3 +1,4 @@
 import Weather from "./Weather"
+import Header from "./Header"
 
-export {Weather}
+export {Weather, Header}
