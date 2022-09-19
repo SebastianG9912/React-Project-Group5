@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from "react"
-
+import "./style.css"
 interface Ilocation {
     regionCode: string,
     lon: string,
     lat: string
 }
-interface IBirdArray {
+interface IBird {
     comName: string,
     speciesCode: string
 }
 
+interface IBirdArray {
+    array: IBird[]
+}
+
 const Birds = (param: Ilocation) => {
-// const [uri, setUri] = useState(`https://api.ebird.org/v2/data/obs/${param.regionCode}/recent`)
 const uri = `https://api.ebird.org/v2/data/obs/geo/recent?lat=${param.lat}&lng=${param.lon}`
 const [jsonResponse, setJsonResponse] = useState([])
-const [commonBirdList, setCommonBirdList] = useState([""])
+const [commonBirdList, setCommonBirdList] = useState<IBirdArray>({array: []})
 
 useEffect(() => {
     const requestHeaders: HeadersInit = new Headers();
@@ -31,38 +34,32 @@ useEffect(() => {
 }, [uri])
 
 useEffect(() => {
-    console.log(jsonResponse)
     jsonResponse.sort((a, b) => b["howMany"] - a["howMany"])
-    jsonResponse.forEach(bird => console.log(bird['howMany']));
-    const tmpArr = jsonResponse.slice(0, 5).map(a => a["comName"])
-
+    const tmpArr: IBirdArray = {
+        array: jsonResponse.slice(0, 5)
+    }
     setCommonBirdList(tmpArr)
 }, [jsonResponse])
 
 
-const birdList = commonBirdList.map((comName) => <li>{comName}</li>)
-
 return (
     <div>
-        <p>Common Birds:</p>
-        <ul style={{listStyle:"none", marginLeft:"-2rem"}}>
-            {birdList}
-        </ul>
+        <p style={{ margin: "auto", fontSize: "larger", width: "fit-content", paddingTop:"1rem"}}>Common Birds:</p>
+        <CommonBirdList array={commonBirdList.array}/>
     </div>
 )
 }
 
-
-
-// const CommonBirdList = (param: IBirdArray) => {
-//     const birdList = param.birds.map(( comName ) => 
-//         <li>{comName}</li>
-//     )
-//     return(
-//         <ul>
-//             {birdList}
-//         </ul>
-//     )
-// }
+const CommonBirdList = (param: IBirdArray) => {
+    
+    const birdList = param.array.map(( bird ) => 
+        <li><a href={`https://ebird.org/species/${bird.speciesCode}`} target="_blank" rel="noreferrer">{bird.comName}</a></li>
+    )
+    return(
+        <ul className="weatherList" style={{marginTop:"0.5rem"}} >
+            {birdList}
+        </ul>
+    )
+}
 
 export default Birds

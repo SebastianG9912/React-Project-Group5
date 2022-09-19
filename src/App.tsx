@@ -35,10 +35,6 @@ function App() {
         </button>
         <Weather region={region} />
         {/*WEATHER IMPLEMANTATION END*/}
-
-        {/*BIRDS IMPLEMENTATION START*/}
-        {/* <Birds regionCode={region} /> */}
-        {/*BIRDS IMPLEMENTATION END*/}
       </header>
     </div>
   )

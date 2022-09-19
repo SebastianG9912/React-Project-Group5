@@ -41,10 +41,6 @@ const Weather = (param: IWeather) => {
       fetch(uri)
         .then((response) => response.json())
         .then((apiData) => {
-          /**
-           * Logging the response for reusing it in the Birds component
-           */
-          console.log(apiData.coord)
           const Coordinates = {
             lon: apiData.coord.lon,
             lat: apiData.coord.lat
