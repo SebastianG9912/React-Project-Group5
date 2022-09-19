@@ -24,3 +24,12 @@
     width: fit-content;
     margin-top: 0.7em;
 }
+
+.weatherList li a{
+    color:#282c34;
+    text-decoration: none;
+    transition: 0.13s;
+}
+.weatherList li a:hover{
+    color: #fff;
+}

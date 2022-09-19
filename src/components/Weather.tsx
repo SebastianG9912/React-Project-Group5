@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react"
 import { start } from "repl"
 import "./style.css"
 
+//Importing the birds component
+import Birds from './Birds'
+
 interface IWeather {
   region: string
 }
@@ -22,6 +25,12 @@ const Weather = (param: IWeather) => {
     windSpeed: "",
   })
 
+  //Coordinates used for the Birds component
+  const [coords, setCoords] = useState({
+    lon: "",
+    lat: ""
+  })
+
   const key = "f57e16dd03bb490408e2f4f8b485e456"
   const uri = `http://api.openweathermap.org/data/2.5/weather?q=${param.region}&APPID=${key}`
 
@@ -32,6 +41,12 @@ const Weather = (param: IWeather) => {
       fetch(uri)
         .then((response) => response.json())
         .then((apiData) => {
+          const Coordinates = {
+            lon: apiData.coord.lon,
+            lat: apiData.coord.lat
+          }
+          setCoords(Coordinates)
+
           const tempK = apiData.main.temp
           const WeatherTempC =
             Math.round((tempK - 272.15) * 10) / 10 + "\u00B0C"
@@ -80,6 +95,7 @@ const Weather = (param: IWeather) => {
       ) : error ? (
         <p>Something went wrong, try again. Please check name of region</p>
       ) : (
+        <div>
         <WeatherCard
           temperature={climate.temperature}
           description={climate.description}
@@ -89,6 +105,8 @@ const Weather = (param: IWeather) => {
           windSpeed={climate.windSpeed}
           region={param.region}
         />
+        <Birds regionCode={param.region} lon={coords.lon} lat={coords.lat}/>
+        </div>
       )}
     </div>
   )
