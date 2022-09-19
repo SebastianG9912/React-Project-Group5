@@ -1,6 +1,5 @@
-import React, { useState } from "react"
 import "./App.css"
-import { Weather, Header } from "./components"
+import { Header } from "./components"
 
 function App() {
   return (
