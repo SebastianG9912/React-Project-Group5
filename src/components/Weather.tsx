@@ -130,7 +130,7 @@ interface IWeatherCard {
 const WeatherCard = (params: IWeatherCard) => {
   return (
     <span>
-      <h2 className="card" style={{ marginBottom: "0" }}>
+      <h2 style={{ marginBottom: "0", textTransform: "capitalize"}}>
         {firstLetterUppercase(params.region.toLowerCase())}
       </h2>
       <div className="multiDiv">
