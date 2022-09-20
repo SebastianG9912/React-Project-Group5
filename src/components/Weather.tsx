@@ -3,7 +3,7 @@ import { start } from "repl"
 import "./style.css"
 
 //Importing the birds component
-import Birds from './Birds'
+import Birds from "./Birds"
 
 interface IWeather {
   region: string
@@ -28,7 +28,7 @@ const Weather = (param: IWeather) => {
   //Coordinates used for the Birds component
   const [coords, setCoords] = useState({
     lon: "",
-    lat: ""
+    lat: "",
   })
 
   const key = "f57e16dd03bb490408e2f4f8b485e456"
@@ -43,7 +43,7 @@ const Weather = (param: IWeather) => {
         .then((apiData) => {
           const Coordinates = {
             lon: apiData.coord.lon,
-            lat: apiData.coord.lat
+            lat: apiData.coord.lat,
           }
           setCoords(Coordinates)
 
@@ -87,25 +87,28 @@ const Weather = (param: IWeather) => {
   }, [uri])
 
   return (
-    <div className="card">
+    <div style={{ width: "100%", height: "fit-content" }}>
       {param.region === "" ? (
-        <p>Please enter name of the region</p>
+        <div className="card">Please enter name of the region</div>
       ) : loading ? (
-        <p>Loading, please wait...</p>
+        <div className="card">Loading, please wait...</div>
       ) : error ? (
-        <p>Something went wrong, try again. Please check name of region</p>
+        <div className="card">
+          Something went wrong, try again. Please check name of region
+        </div>
       ) : (
-        <div>
-        <WeatherCard
-          temperature={climate.temperature}
-          description={climate.description}
-          iconUri={climate.iconUri}
-          humidity={climate.humidity}
-          visibility={climate.visibility}
-          windSpeed={climate.windSpeed}
-          region={param.region}
-        />
-        <Birds regionCode={param.region} lon={coords.lon} lat={coords.lat}/>
+        <div style={{ width: "100%", marginBottom: "20px" }}>
+          <WeatherCard
+            temperature={climate.temperature}
+            description={climate.description}
+            iconUri={climate.iconUri}
+            humidity={climate.humidity}
+            visibility={climate.visibility}
+            windSpeed={climate.windSpeed}
+            region={param.region}
+            lon={coords.lon}
+            lat={coords.lat}
+          />
         </div>
       )}
     </div>
@@ -120,6 +123,8 @@ interface IWeatherCard {
   visibility: string
   windSpeed: string
   region: string
+  lon: string
+  lat: string
 }
 
 const WeatherCard = (params: IWeatherCard) => {
@@ -128,16 +133,23 @@ const WeatherCard = (params: IWeatherCard) => {
       <h2 style={{ marginBottom: "0", textTransform: "capitalize"}}>
         {firstLetterUppercase(params.region.toLowerCase())}
       </h2>
-      <img src={params.iconUri} alt="Current Weather" />
-      <p style={{ margin: "auto", fontSize: "larger", width: "fit-content" }}>
-        {params.description}
-      </p>
-      <ul className="weatherList">
-        <li>Temperature: {params.temperature}</li>
-        <li>Humidity: {params.humidity}</li>
-        <li>Visibility: {params.visibility}</li>
-        <li>Wind speed: {params.windSpeed}</li>
-      </ul>
+      <div className="multiDiv">
+        <div className="card">
+          <img src={params.iconUri} alt="Current Weather" />
+          <p
+            style={{ margin: "auto", fontSize: "larger", width: "fit-content" }}
+          >
+            {params.description}
+          </p>
+          <ul className="weatherList">
+            <li>Temperature: {params.temperature}</li>
+            <li>Humidity: {params.humidity}</li>
+            <li>Visibility: {params.visibility}</li>
+            <li>Wind speed: {params.windSpeed}</li>
+          </ul>
+        </div>
+        <Birds regionCode={params.region} lon={params.lon} lat={params.lat} />
+      </div>
     </span>
   )
 }
