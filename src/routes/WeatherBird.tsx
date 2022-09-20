@@ -7,7 +7,10 @@ const WeatherBird = () => {
   return (
     <div>
       <Header />
-      <div className="inputBtn" style={{ margin: "auto", marginTop: "50px" }}>
+      <div
+        className="inputBtn"
+        style={{ margin: "auto", marginTop: "50px", transform: "scale(1.3)" }}
+      >
         <input
           type="text"
           id="regionText"
