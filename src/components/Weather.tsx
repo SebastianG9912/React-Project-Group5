@@ -87,7 +87,7 @@ const Weather = (param: IWeather) => {
   }, [uri])
 
   return (
-    <div style={{ width: "100%", height: "fit-content", display: "flex" }}>
+    <div style={{ width: "100%", height: "fit-content" }}>
       {param.region === "" ? (
         <div className="card">Please enter name of the region</div>
       ) : loading ? (
@@ -97,7 +97,7 @@ const Weather = (param: IWeather) => {
           Something went wrong, try again. Please check name of region
         </div>
       ) : (
-        <div style={{ width: "100%" }}>
+        <div style={{ width: "100%", marginBottom: "20px" }}>
           <WeatherCard
             temperature={climate.temperature}
             description={climate.description}
@@ -133,8 +133,8 @@ const WeatherCard = (params: IWeatherCard) => {
       <h2 className="card" style={{ marginBottom: "0" }}>
         {firstLetterUppercase(params.region.toLowerCase())}
       </h2>
-      <div style={{ display: "flex", margin: "auto", width: "fit-content" }}>
-        <div className="card" style={{ margin: "20px 10px 0 0" }}>
+      <div className="multiDiv">
+        <div className="card">
           <img src={params.iconUri} alt="Current Weather" />
           <p
             style={{ margin: "auto", fontSize: "larger", width: "fit-content" }}

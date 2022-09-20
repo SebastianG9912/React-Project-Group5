@@ -99,3 +99,24 @@ header{
         border-bottom-right-radius: 0;
     }
     
+.multiDiv{
+display: flex;
+margin: auto;
+width: fit-content;
+}
+
+.multiDiv div{
+margin: 20px 10px 0 10px;
+}
+
+
+@media screen and (max-width: 750px) {
+    .multiDiv{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .multiDiv > *{
+        margin: 0;
+    }
+}

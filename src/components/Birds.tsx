@@ -44,7 +44,7 @@ const Birds = (param: Ilocation) => {
   }, [jsonResponse])
 
   return (
-    <div className="card" style={{ margin: "20px 0 0 10px" }}>
+    <div className="card">
       <p
         style={{
           margin: "auto",
